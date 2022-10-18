@@ -54,10 +54,15 @@
   background-color: var(--input-button-color);
 }
 
+.math-functions,
 .operator-function {
   background-color: var(--operator-button-color);
 }
 
 .extra-function {
   background-color: var(--extra-function-button-color);
+}
+
+.active {
+  background-color: rgb(213, 117, 0);
 }
