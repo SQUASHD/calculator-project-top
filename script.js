@@ -1,4 +1,4 @@
-const DEFAULT_INPUT_VALUE = ""
+const DEFAULT_INPUT_VALUE = "0"
 
 let inputNumberA = DEFAULT_INPUT_VALUE;
 let inputNumberB = DEFAULT_INPUT_VALUE;
@@ -7,9 +7,7 @@ let secondNumberSet = false;
 let decimalAlreadyPlaced = false;
 let operatorSelected = false;
 let computedAnswer = 0;
-let lastManualInput = 0;
-
-let currentValue = "";
+let currentValue = "0";
 
 const displayContainer = document.getElementById("calculator-display")
 const inputBtns = document.querySelectorAll(".input")
@@ -28,12 +26,22 @@ operatorBtn.addEventListener('click', () => {
     return
   }
 
-  inputNumberB = currentValue
-  computedAnswer = operate(currentOperator, parseFloat(inputNumberA), parseFloat(inputNumberB));
-  displayContainer.textContent = computedAnswer;
-  inputNumberA = computedAnswer;
+  if (!secondNumberSet){
+    inputNumberB = currentValue
+    secondNumberSet = true
+  }
+
+  currentValue = operate(currentOperator, parseFloat(inputNumberA), parseFloat(inputNumberB));
+  displayContainer.textContent = Math.round(currentValue * 100) / 100;
+  inputNumberA = currentValue;
+
   removeActiveClassFromButtons();
-})
+  console.log(`InputNumberA = ${inputNumberA}`)
+  console.log(`InputNumberB = ${inputNumberB}`)
+  console.log(`currentValue = ${currentValue}`)
+});
+
+
 
 function removeActiveClassFromButtons() {
   mathBtns.forEach((button) => {
@@ -54,7 +62,7 @@ function clearValuesAndDisplay() {
 }
 
 function resetDisplayAndCurrentValue() {
-  currentValue = "";
+  currentValue = "0";
   displayContainer.textContent = "0";
 }
 
@@ -64,7 +72,12 @@ function resetDisplayAndCurrentValue() {
 let add = (a, b) => a + b;
 let subract = (a, b) => a - b;
 let multiply = (a, b) => a * b;
-let divide = (a, b) => a / b;
+let divide = (a, b) => {
+  if (b === 0) {
+    return 'ERROR: DIVISION BY ZERO';
+  }
+  return a / b;
+};
 
 let operate = (operator, firstNumber, secondNumber) => {
   if(operator === 'add') {
@@ -81,13 +94,14 @@ let operate = (operator, firstNumber, secondNumber) => {
   }
 };
 
-function updatecurrentValue(input) {
+function updateDisplayValue(input) {
   var interpretedInputValue;
 
   if (input === 'zero' && currentValue === "0") {
+    displayContainer.textContent = currentValue
     return;
   }
-  if (input === 'decimal' && decimalAlreadyPlaced) {
+  if (decimalAlreadyPlaced) {
     return
   }
 
@@ -95,11 +109,12 @@ function updatecurrentValue(input) {
     interpretedInputValue = '0'
   }
   else if (input === 'decimal') {
-    if (currentValue === "" || currentValue === "0") {
-      currentValue = "0"
-    }
     interpretedInputValue = "."
     decimalAlreadyPlaced = true
+  }
+  else if (currentValue === '0'){
+    currentValue = ''
+    interpretedInputValue = input
   }
   else {
     interpretedInputValue = input
@@ -110,41 +125,35 @@ function updatecurrentValue(input) {
 }
 
 function saveCurrentNumber(value) {
-  if (firstNumberSet) {
-    inputNumberB = value;
-    secondNumberSet = true;
-  }
-  else {
-    inputNumberA = value
-    firstNumberSet = true;
-  }
+  inputNumberA = value
+  firstNumberSet = true;
 }
 
 inputBtns.forEach((button) => {
   button.addEventListener('click', e => {
-    updatecurrentValue(e.target.id)
+    updateDisplayValue(e.target.id)
+    console.log(`InputNumberA: ${inputNumberA}`)
+    console.log(`InputNumberB: ${inputNumberB}`)
+    console.log(`currentValue = ${currentValue}`)
   })
 });
 
 mathBtns.forEach((button) => {
   button.addEventListener('click', e => {
+    if (firstNumberSet) {
+      currentValue = operate(currentOperator, parseFloat(inputNumberA), parseFloat(currentValue));
+      displayContainer.textContent = Math.round(currentValue * 100)/100;
+      inputNumberA = currentValue;
+    }
+    
     currentOperator = e.target.id
 
-    if (!firstNumberSet) {
-      saveCurrentNumber(currentValue)
-      resetDisplayAndCurrentValue()
-      displayContainer.textContent = inputNumberA
-    }
+    saveCurrentNumber(currentValue)
+    resetDisplayAndCurrentValue()
 
-    if (!operatorSelected) {
-      button.classList.add('active');
-      operatorSelected = true;
-    }
-    else {
-      removeActiveClassFromButtons()
-      button.classList.add('active')
-    }
+    displayContainer.textContent = Math.round(inputNumberA * 100) / 100
     
-    
+    removeActiveClassFromButtons()  
+    button.classList.add('active')
   })
 })
