@@ -1,7 +1,8 @@
-const DEFAULT_INPUT_VALUE = "0"
+const DEFAULT_VALUE = "0"
+const ERROR_BY_ZERO_MESSAGE = "Hey, don't do that!"
 
-let inputNumberA = DEFAULT_INPUT_VALUE;
-let inputNumberB = DEFAULT_INPUT_VALUE;
+let temporaryNumberStorage = DEFAULT_VALUE;
+let inputNumberB = DEFAULT_VALUE;
 let firstNumberSet = false;
 let secondNumberSet = false;
 let decimalAlreadyPlaced = false;
@@ -31,14 +32,17 @@ operatorBtn.addEventListener('click', () => {
     secondNumberSet = true
   }
 
-  currentValue = operate(currentOperator, parseFloat(inputNumberA), parseFloat(inputNumberB));
+  currentValue = operate(currentOperator, parseFloat(temporaryNumberStorage), parseFloat(inputNumberB));
+  if (currentValue === ERROR_BY_ZERO_MESSAGE) {
+    displayContainer.textContent = currentValue
+  }
+  else {
   displayContainer.textContent = Math.round(currentValue * 100) / 100;
-  inputNumberA = currentValue;
-
+  temporaryNumberStorage = currentValue;
+}
+  currentValue = "te";
   removeActiveClassFromButtons();
-  console.log(`InputNumberA = ${inputNumberA}`)
-  console.log(`InputNumberB = ${inputNumberB}`)
-  console.log(`currentValue = ${currentValue}`)
+  logVariables()
 });
 
 
@@ -50,8 +54,8 @@ function removeActiveClassFromButtons() {
 }
 
 function clearValuesAndDisplay() {
-  inputNumberA = DEFAULT_INPUT_VALUE;
-  inputNumberB = DEFAULT_INPUT_VALUE;
+  temporaryNumberStorage = DEFAULT_VALUE;
+  inputNumberB = DEFAULT_VALUE;
   firstNumberSet = false;
   secondNumberSet = false;
   decimalAlreadyPlaced = false;
@@ -74,7 +78,7 @@ let subract = (a, b) => a - b;
 let multiply = (a, b) => a * b;
 let divide = (a, b) => {
   if (b === 0) {
-    return 'ERROR: DIVISION BY ZERO';
+    return ERROR_BY_ZERO_MESSAGE;
   }
   return a / b;
 };
@@ -97,11 +101,14 @@ let operate = (operator, firstNumber, secondNumber) => {
 function updateDisplayValue(input) {
   var interpretedInputValue;
 
+  if (currentValue === ERROR_BY_ZERO_MESSAGE) {
+    resetDisplayAndCurrentValue()
+  }
   if (input === 'zero' && currentValue === "0") {
     displayContainer.textContent = currentValue
     return;
   }
-  if (decimalAlreadyPlaced) {
+  if (input === 'decimal' && decimalAlreadyPlaced) {
     return
   }
 
@@ -124,36 +131,40 @@ function updateDisplayValue(input) {
   displayContainer.textContent = currentValue
 }
 
-function saveCurrentNumber(value) {
-  inputNumberA = value
-  firstNumberSet = true;
-}
-
 inputBtns.forEach((button) => {
   button.addEventListener('click', e => {
     updateDisplayValue(e.target.id)
-    console.log(`InputNumberA: ${inputNumberA}`)
-    console.log(`InputNumberB: ${inputNumberB}`)
-    console.log(`currentValue = ${currentValue}`)
+    console.log(`currentValue: ${currentValue}`)
   })
 });
 
 mathBtns.forEach((button) => {
   button.addEventListener('click', e => {
     if (firstNumberSet) {
-      currentValue = operate(currentOperator, parseFloat(inputNumberA), parseFloat(currentValue));
+      currentValue = operate(currentOperator, parseFloat(temporaryNumberStorage), parseFloat(currentValue));
       displayContainer.textContent = Math.round(currentValue * 100)/100;
-      inputNumberA = currentValue;
+      temporaryNumberStorage = currentValue;
     }
-    
+    else {
+      firstNumberSet = true;
+    }
+
+    temporaryNumberStorage = currentValue
     currentOperator = e.target.id
 
-    saveCurrentNumber(currentValue)
+    
     resetDisplayAndCurrentValue()
 
-    displayContainer.textContent = Math.round(inputNumberA * 100) / 100
+    displayContainer.textContent = Math.round(temporaryNumberStorage * 100) / 100
     
     removeActiveClassFromButtons()  
     button.classList.add('active')
+    logVariables()
   })
 })
+
+let logVariables = () => {
+  console.log(`temporaryNumberStorage: ${temporaryNumberStorage}`)
+  console.log(`inputNumberB: ${inputNumberB}`)
+  console.log(`currentValue: ${currentValue}`)
+}
