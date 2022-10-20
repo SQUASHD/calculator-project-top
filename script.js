@@ -3,7 +3,7 @@ const ERROR_BY_ZERO_MESSAGE = "Hey, don't do that!"
 
 let temporaryNumberStorage = DEFAULT_VALUE;
 let inputNumberB = DEFAULT_VALUE;
-let currentValue = DEFAULT_VALUE;
+let currentInputValue = DEFAULT_VALUE;
 let displayValue = DEFAULT_VALUE;
 
 let decimalAlreadyPlaced = false;
@@ -34,16 +34,16 @@ function removeActiveClassFromButtons() {
 function clearValuesAndDisplay() {
   temporaryNumberStorage = DEFAULT_VALUE;
   inputNumberB = DEFAULT_VALUE;
-  currentValue = DEFAULT_VALUE;
+  currentInputValue = DEFAULT_VALUE;
   displayValue = DEFAULT_VALUE;
 
   decimalAlreadyPlaced = false;
   operatorSelected = false;
   
-  resetDisplayAndCurrentValue();
+  resetDisplayAndcurrentInputValue();
 }
 
-function resetDisplayAndCurrentValue() {
+function resetDisplayAndcurrentInputValue() {
   displayValue = DEFAULT_VALUE;
   displayContainer.textContent = "0";
 }
@@ -77,11 +77,11 @@ let operate = (operator, firstNumber, secondNumber) => {
 function updateDisplayValue(input) {
   var interpretedInputValue;
 
-  if (currentValue === ERROR_BY_ZERO_MESSAGE) {
-    resetDisplayAndCurrentValue()
+  if (currentInputValue === ERROR_BY_ZERO_MESSAGE) {
+    resetDisplayAndcurrentInputValue()
   }
-  if (input === 'zero' && currentValue === "0") {
-    displayContainer.textContent = currentValue
+  if (input === 'zero' && currentInputValue === "0") {
+    displayContainer.textContent = currentInputValue
     return;
   }
   if (input === 'decimal' && decimalAlreadyPlaced) {
@@ -95,16 +95,16 @@ function updateDisplayValue(input) {
     interpretedInputValue = "."
     decimalAlreadyPlaced = true
   }
-  else if (currentValue === '0'){
-    currentValue = ''
+  else if (currentInputValue === '0'){
+    currentInputValue = ''
     interpretedInputValue = input
   }
   else {
     interpretedInputValue = input
   }
   
-  currentValue += interpretedInputValue
-  displayContainer.textContent = currentValue
+  currentInputValue += interpretedInputValue
+  displayContainer.textContent = currentInputValue
 }
 
 inputBtns.forEach((button) => {
@@ -116,13 +116,17 @@ inputBtns.forEach((button) => {
 
 mathBtns.forEach((button) => {
   button.addEventListener('click', e => {
+    
+    
     logVariables()
+    removeActiveClassFromButtons()
+    button.classList.add('active')
   })
 })
 
 let logVariables = () => {
   console.log(`temporaryNumberStorage: ${temporaryNumberStorage}`)
   console.log(`inputNumberB: ${inputNumberB}`)
-  console.log(`currentValue: ${currentValue}`)
+  console.log(`currentInputValue: ${currentInputValue}`)
   console.log(`displayValue: ${displayValue}`)
 }
