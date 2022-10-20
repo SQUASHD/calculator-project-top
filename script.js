@@ -18,35 +18,6 @@ const mathBtns = document.querySelectorAll(".math-functions")
 const clearBtn = document.getElementById("clear")
 const operatorBtn = document.getElementById("equals")
 
-clearBtn.addEventListener('click', () => {
-  clearValuesAndDisplay();
-  removeActiveClassFromButtons();
-});
-
-operatorBtn.addEventListener('click', () => {
-  
-  if (!firstNumberSet){
-    return
-  }
-
-  if (!secondNumberSet){
-    inputNumberB = currentValue
-    secondNumberSet = true
-  }
-
-  currentValue = operate(currentOperator, parseFloat(temporaryNumberStorage), parseFloat(inputNumberB));
-  if (currentValue === ERROR_BY_ZERO_MESSAGE) {
-    displayContainer.textContent = currentValue
-  }
-  else {
-  displayContainer.textContent = Math.round(currentValue * 100) / 100;
-  temporaryNumberStorage = currentValue;
-}
-  currentValue = "te";
-  removeActiveClassFromButtons();
-  logVariables()
-});
-
 function removeActiveClassFromButtons() {
   mathBtns.forEach((button) => {
     button.classList.remove('active');
