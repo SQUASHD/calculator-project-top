@@ -66,3 +66,11 @@
 .active {
   background-color: rgb(213, 117, 0);
 }
+
+.active-input {
+  background-color: rgb(210, 205, 205);
+}
+
+.active-extra {
+  background-color: var(--input-button-color);
+}

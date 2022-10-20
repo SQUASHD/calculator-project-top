@@ -207,3 +207,19 @@ operatorBtn.addEventListener('click', () => {
   displayContainer.textContent = displayValue
   logVariables()
 });
+
+inputBtns.forEach((button) => {
+  button.addEventListener('mouseover', e => {
+    e.target.classList.add("active-input")
+  })
+  button.addEventListener('mouseout', e => {
+    e.target.classList.remove('active-input')
+  })
+})
+
+clearBtn.addEventListener('mouseover', () => {
+  clearBtn.classList.add('active-extra')
+})
+clearBtn.addEventListener('mouseout', () => {
+  clearBtn.classList.remove('active-extra')
+})
