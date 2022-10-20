@@ -17,6 +17,7 @@ const inputBtns = document.querySelectorAll(".input")
 const mathBtns = document.querySelectorAll(".math-functions")
 const clearBtn = document.getElementById("clear")
 const operatorBtn = document.getElementById("equals")
+const signChangeBtn = document.getElementById("changeSign")
 
 function removeActiveClassFromButtons() {
   mathBtns.forEach((button) => {
@@ -208,6 +209,20 @@ operatorBtn.addEventListener('click', () => {
   logVariables()
 });
 
+signChangeBtn.addEventListener('click', () => {
+  if (currentInputValue) {
+    currentInputValue *= -1
+    displayContainer.textContent = currentInputValue
+  } else if (!currentInputValue && displayValue) {
+    displayValue *= -1
+    temporaryNumberStorage = displayValue
+    displayContainer.textContent = displayValue
+  }
+  logVariables()
+})
+
+
+// Hover active button
 inputBtns.forEach((button) => {
   button.addEventListener('mouseover', e => {
     e.target.classList.add("active-input")
