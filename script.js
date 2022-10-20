@@ -43,6 +43,7 @@ function clearValuesAndDisplay() {
 function resetDisplayAndcurrentInputValue() {
   displayValue = DEFAULT_VALUE;
   displayContainer.textContent = "0";
+  removeActiveClassFromButtons
 }
 
 // Basic arithmetic operations
@@ -55,6 +56,13 @@ let divide = (a, b) => {
   }
   return a / b;
 };
+
+let resetIfDivideByZeroError = () => {
+  if (temporaryNumberStorage === ERROR_BY_ZERO_MESSAGE || displayValue === ERROR_BY_ZERO_MESSAGE) {
+    clearValuesAndDisplay()
+    removeActiveClassFromButtons()
+  }
+}
 
 let operate = (operator, firstNumber, secondNumber) => {
   if(operator === 'add') {
@@ -72,14 +80,11 @@ let operate = (operator, firstNumber, secondNumber) => {
 };
 
 function updateDisplayValue(buttonInput) {
+  resetIfDivideByZeroError()
   var interpretedInputValue;
 
   if(displayValue && !currentInputValue) {
     displayValue = currentInputValue
-  }
-  if (displayValue === ERROR_BY_ZERO_MESSAGE || temporaryNumberStorage == ERROR_BY_ZERO_MESSAGE) {
-    clearValuesAndDisplay()
-    return
   }
   if (buttonInput === 'zero' && currentInputValue === "0") {
     displayContainer.textContent = currentInputValue
@@ -93,6 +98,9 @@ function updateDisplayValue(buttonInput) {
     interpretedInputValue = '0'
   }
   else if (buttonInput === 'decimal') {
+    if (!currentInputValue) {
+      currentInputValue = "0"
+    }
     interpretedInputValue = "."
     decimalAlreadyPlaced = true
   }
@@ -128,14 +136,11 @@ inputBtns.forEach((button) => {
 // Math operation button logic
 mathBtns.forEach((button) => {
   button.addEventListener('click', e => {
+    decimalAlreadyPlaced = false;
     removeActiveClassFromButtons()
     button.classList.add('active')
 
-    if (temporaryNumberStorage === ERROR_BY_ZERO_MESSAGE || displayValue === ERROR_BY_ZERO_MESSAGE) {
-      clearValuesAndDisplay();
-      removeActiveClassFromButtons();
-      return;
-    }
+    resetIfDivideByZeroError()
 
     if(!operatorSelected) {
       currentOperator = e.target.id;
@@ -185,11 +190,9 @@ clearBtn.addEventListener('click', () => {
 
 // Equals / = button logic
 operatorBtn.addEventListener('click', () => {
+  resetIfDivideByZeroError()
+
   if (!temporaryNumberStorage) {
-    return
-  }
-  if (displayValue === ERROR_BY_ZERO_MESSAGE || temporaryNumberStorage == ERROR_BY_ZERO_MESSAGE) {
-    clearValuesAndDisplay()
     return
   }
 
@@ -211,6 +214,8 @@ operatorBtn.addEventListener('click', () => {
 });
 
 signChangeBtn.addEventListener('click', () => {
+  resetIfDivideByZeroError()
+
   if (currentInputValue) {
     currentInputValue *= -1
     displayContainer.textContent = currentInputValue
@@ -223,6 +228,8 @@ signChangeBtn.addEventListener('click', () => {
 })
 
 percentBtn.addEventListener('click', () => {
+  resetIfDivideByZeroError()
+
   if (currentInputValue) {
     currentInputValue /= 100
     displayContainer.textContent = currentInputValue
