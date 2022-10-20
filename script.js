@@ -175,7 +175,7 @@ mathBtns.forEach((button) => {
     }
 
     currentInputValue = ""
-    displayContainer.textContent = displayValue
+    displayContainer.textContent = Math.round(displayValue * 100) / 100
     
     
     logVariables()
@@ -209,7 +209,7 @@ operatorBtn.addEventListener('click', () => {
   removeActiveClassFromButtons()
   currentInputValue = ""
   displayValue = temporaryNumberStorage
-  displayContainer.textContent = displayValue
+  displayContainer.textContent = Math.round(displayValue * 100) / 100
   logVariables()
 });
 
@@ -222,7 +222,7 @@ signChangeBtn.addEventListener('click', () => {
   } else if (!currentInputValue && displayValue) {
     displayValue *= -1
     temporaryNumberStorage = displayValue
-    displayContainer.textContent = displayValue
+    displayContainer.textContent = Math.round(displayValue * 100) / 100
   }
   logVariables()
 })
@@ -237,7 +237,7 @@ percentBtn.addEventListener('click', () => {
   else if (!currentInputValue && displayValue) {
     displayValue /= 100
     temporaryNumberStorage = displayValue
-    displayContainer.textContent = displayValue
+    displayContainer.textContent = Math.round(displayValue * 100) / 100
   }
 })
 
