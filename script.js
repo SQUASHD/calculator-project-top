@@ -56,12 +56,21 @@ let divide = (a, b) => {
   return a / b;
 };
 
-let resetIfDivideByZeroError = () => {
+let checkIfDivideByZeroError = () => {
   if (temporaryNumberStorage === ERROR_BY_ZERO_MESSAGE || displayValue === ERROR_BY_ZERO_MESSAGE) {
-    clearValuesAndDisplay()
-    removeActiveClassFromButtons()
+    return true;
+  }
+  else {
+    return false;
   }
 }
+
+let resetCalculator = () => {
+  clearValuesAndDisplay()
+  removeActiveClassFromButtons()
+  return;
+}
+
 
 let operate = (operator, firstNumber, secondNumber) => {
   if(operator === 'add') {
@@ -79,7 +88,9 @@ let operate = (operator, firstNumber, secondNumber) => {
 };
 
 function updateDisplayValue(buttonInput) {
-  resetIfDivideByZeroError()
+  if (checkIfDivideByZeroError()) {
+    resetCalculator()
+  }
   var interpretedInputValue;
 
   if(displayValue && !currentInputValue) {
@@ -135,11 +146,13 @@ inputBtns.forEach((button) => {
 // Math operation button logic
 mathBtns.forEach((button) => {
   button.addEventListener('click', e => {
+    if (checkIfDivideByZeroError()) {
+      resetCalculator()
+    }
     decimalAlreadyPlaced = false;
     removeActiveClassFromButtons()
     button.classList.add('active')
 
-    resetIfDivideByZeroError()
 
     if(!operatorSelected) {
       currentOperator = e.target.id;
@@ -173,7 +186,7 @@ mathBtns.forEach((button) => {
     }
 
     currentInputValue = ""
-    displayContainer.textContent = Math.floor(displayValue * 100) / 100
+    displayContainer.textContent = Math.round(displayValue * 100) / 100
     
     logVariables()
   })
@@ -187,7 +200,9 @@ clearBtn.addEventListener('click', () => {
 
 // Equals / = button logic
 operatorBtn.addEventListener('click', () => {
-  resetIfDivideByZeroError()
+  if (checkIfDivideByZeroError()) {
+      resetCalculator()
+    }
 
   if (!temporaryNumberStorage) {
     return
@@ -203,29 +218,40 @@ operatorBtn.addEventListener('click', () => {
   }
 
   temporaryNumberStorage = operate(currentOperator, parseFloat(temporaryNumberStorage), parseFloat(inputNumberB))
-  removeActiveClassFromButtons()
   currentInputValue = ""
   displayValue = temporaryNumberStorage
-  displayContainer.textContent = Math.floor(displayValue * 100) / 100
+  
+  if (displayValue === ERROR_BY_ZERO_MESSAGE) {
+    displayContainer.textContent = displayValue
+  }
+  else {
+    displayContainer.textContent = Math.round(displayValue * 100) / 100
+  }
+  
+  removeActiveClassFromButtons()
   logVariables()
 });
 
 signChangeBtn.addEventListener('click', () => {
-  resetIfDivideByZeroError()
+  if (checkIfDivideByZeroError()) {
+      resetCalculator()
+    }
 
   if (currentInputValue) {
     currentInputValue *= -1
-    displayContainer.textContent = Math.floor(displayValue * 100) / 100
+    displayContainer.textContent = Math.round(currentInputValue * 100) / 100
   } else if (!currentInputValue && displayValue) {
     displayValue *= -1
     temporaryNumberStorage = displayValue
-    displayContainer.textContent = Math.floor(displayValue * 100) / 100
+    displayContainer.textContent = Math.round(displayValue * 100) / 100
   }
   logVariables()
 })
 
 percentBtn.addEventListener('click', () => {
-  resetIfDivideByZeroError()
+  if (checkIfDivideByZeroError()) {
+      resetCalculator()
+    }
 
   if (currentInputValue) {
     currentInputValue /= 100
@@ -234,7 +260,7 @@ percentBtn.addEventListener('click', () => {
   else if (!currentInputValue && displayValue) {
     displayValue /= 100
     temporaryNumberStorage = displayValue
-    displayContainer.textContent = Math.floor(displayValue * 100) / 100
+    displayContainer.textContent = Math.round(displayValue * 100) / 100
   }
 })
 
