@@ -238,3 +238,10 @@ clearBtn.addEventListener('mouseover', () => {
 clearBtn.addEventListener('mouseout', () => {
   clearBtn.classList.remove('active-extra')
 })
+
+signChangeBtn.addEventListener('mouseover', () => {
+  signChangeBtn.classList.add('active-extra')
+})
+signChangeBtn.addEventListener('mouseout', () => {
+  signChangeBtn.classList.remove('active-extra')
+})
