@@ -126,14 +126,22 @@ inputBtns.forEach((button) => {
 // Math operation button logic
 mathBtns.forEach((button) => {
   button.addEventListener('click', e => {
+    removeActiveClassFromButtons()
+    button.classList.add('active')
+
     if(!operatorSelected) {
       currentOperator = e.target.id;
       operatorSelected = true;
     }
+    else if (temporaryNumberStorage && !currentInputValue) {
+      currentOperator = e.target.id;
+      return;
+    }
     else {
       lastOperator = currentOperator
       currentOperator = e.target.id
-    }    
+    }
+
 
     if (!temporaryNumberStorage && !currentInputValue) {
       temporaryNumberStorage = "0"
@@ -156,8 +164,6 @@ mathBtns.forEach((button) => {
     currentInputValue = ""
     displayContainer.textContent = displayValue
     
-    removeActiveClassFromButtons()
-    button.classList.add('active')
     
     logVariables()
   })
