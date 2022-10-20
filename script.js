@@ -87,7 +87,7 @@ function updateDisplayValue(buttonInput) {
     displayValue = currentInputValue
   }
   if (buttonInput === 'zero' && currentInputValue === "0") {
-    displayContainer.textContent = currentInputValue
+    displayContainer.textContent = Math.round(currentInputValue * 100) / 100
     return;
   }
   if (buttonInput === 'decimal' && decimalAlreadyPlaced) {
@@ -113,7 +113,7 @@ function updateDisplayValue(buttonInput) {
   }
   
   currentInputValue += interpretedInputValue
-  displayContainer.textContent = currentInputValue
+  displayContainer.textContent = Math.round(currentInputValue * 100) / 100
 }
 
 let logVariables = () => {
@@ -218,7 +218,7 @@ signChangeBtn.addEventListener('click', () => {
 
   if (currentInputValue) {
     currentInputValue *= -1
-    displayContainer.textContent = currentInputValue
+    displayContainer.textContent = Math.round(currentInputValue * 100) / 100
   } else if (!currentInputValue && displayValue) {
     displayValue *= -1
     temporaryNumberStorage = displayValue
@@ -232,7 +232,7 @@ percentBtn.addEventListener('click', () => {
 
   if (currentInputValue) {
     currentInputValue /= 100
-    displayContainer.textContent = currentInputValue
+    displayContainer.textContent = Math.round(currentInputValue * 100) / 100
   }
   else if (!currentInputValue && displayValue) {
     displayValue /= 100
