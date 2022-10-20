@@ -11,7 +11,6 @@ let operatorSelected = false;
 let currentOperator = ""
 let lastOperator = ""
 
-
 const displayContainer = document.getElementById("calculator-display")
 const inputBtns = document.querySelectorAll(".input")
 const mathBtns = document.querySelectorAll(".math-functions")
@@ -43,7 +42,7 @@ function clearValuesAndDisplay() {
 function resetDisplayAndcurrentInputValue() {
   displayValue = DEFAULT_VALUE;
   displayContainer.textContent = "0";
-  removeActiveClassFromButtons
+  removeActiveClassFromButtons()
 }
 
 // Basic arithmetic operations
@@ -155,7 +154,6 @@ mathBtns.forEach((button) => {
       currentOperator = e.target.id
     }
 
-
     if (!temporaryNumberStorage && !currentInputValue) {
       temporaryNumberStorage = "0"
       displayValue = "0"
@@ -175,8 +173,7 @@ mathBtns.forEach((button) => {
     }
 
     currentInputValue = ""
-    displayContainer.textContent = Math.round(displayValue * 100) / 100
-    
+    displayContainer.textContent = currentInputValue
     
     logVariables()
   })
@@ -209,7 +206,7 @@ operatorBtn.addEventListener('click', () => {
   removeActiveClassFromButtons()
   currentInputValue = ""
   displayValue = temporaryNumberStorage
-  displayContainer.textContent = Math.round(displayValue * 100) / 100
+  displayContainer.textContent = currentInputValue
   logVariables()
 });
 
@@ -218,11 +215,11 @@ signChangeBtn.addEventListener('click', () => {
 
   if (currentInputValue) {
     currentInputValue *= -1
-    displayContainer.textContent = Math.round(currentInputValue * 100) / 100
+    displayContainer.textContent = currentInputValue
   } else if (!currentInputValue && displayValue) {
     displayValue *= -1
     temporaryNumberStorage = displayValue
-    displayContainer.textContent = Math.round(displayValue * 100) / 100
+    displayContainer.textContent = currentInputValue
   }
   logVariables()
 })
@@ -237,10 +234,9 @@ percentBtn.addEventListener('click', () => {
   else if (!currentInputValue && displayValue) {
     displayValue /= 100
     temporaryNumberStorage = displayValue
-    displayContainer.textContent = Math.round(displayValue * 100) / 100
+    displayContainer.textContent = currentInputValue
   }
 })
-
 
 // Hover active styling for buttons
 inputBtns.forEach((button) => {
