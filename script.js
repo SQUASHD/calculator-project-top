@@ -1,14 +1,14 @@
-const DEFAULT_VALUE = "0"
+const DEFAULT_VALUE = ""
 const ERROR_BY_ZERO_MESSAGE = "Hey, don't do that!"
 
 let temporaryNumberStorage = DEFAULT_VALUE;
 let inputNumberB = DEFAULT_VALUE;
-let firstNumberSet = false;
-let secondNumberSet = false;
+let currentValue = DEFAULT_VALUE;
+let displayValue = DEFAULT_VALUE;
+
 let decimalAlreadyPlaced = false;
 let operatorSelected = false;
-let computedAnswer = 0;
-let currentValue = "0";
+
 
 const displayContainer = document.getElementById("calculator-display")
 const inputBtns = document.querySelectorAll(".input")
@@ -22,10 +22,8 @@ clearBtn.addEventListener('click', () => {
 });
 
 operatorBtn.addEventListener('click', () => {
-  
+  logVariables()
 });
-
-
 
 function removeActiveClassFromButtons() {
   mathBtns.forEach((button) => {
@@ -36,21 +34,19 @@ function removeActiveClassFromButtons() {
 function clearValuesAndDisplay() {
   temporaryNumberStorage = DEFAULT_VALUE;
   inputNumberB = DEFAULT_VALUE;
-  firstNumberSet = false;
-  secondNumberSet = false;
+  currentValue = DEFAULT_VALUE;
+  displayValue = DEFAULT_VALUE;
+
   decimalAlreadyPlaced = false;
   operatorSelected = false;
-  computedAnswer = 0;
   
   resetDisplayAndCurrentValue();
 }
 
 function resetDisplayAndCurrentValue() {
-  currentValue = "0";
+  displayValue = DEFAULT_VALUE;
   displayContainer.textContent = "0";
 }
-
-
 
 // Basic arithmetic operations
 let add = (a, b) => a + b;
@@ -114,13 +110,13 @@ function updateDisplayValue(input) {
 inputBtns.forEach((button) => {
   button.addEventListener('click', e => {
     updateDisplayValue(e.target.id)
-    console.log(`currentValue: ${currentValue}`)
+    logVariables()
   })
 });
 
 mathBtns.forEach((button) => {
   button.addEventListener('click', e => {
-
+    logVariables()
   })
 })
 
@@ -128,4 +124,5 @@ let logVariables = () => {
   console.log(`temporaryNumberStorage: ${temporaryNumberStorage}`)
   console.log(`inputNumberB: ${inputNumberB}`)
   console.log(`currentValue: ${currentValue}`)
+  console.log(`displayValue: ${displayValue}`)
 }
