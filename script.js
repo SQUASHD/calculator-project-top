@@ -129,6 +129,12 @@ mathBtns.forEach((button) => {
     removeActiveClassFromButtons()
     button.classList.add('active')
 
+    if (temporaryNumberStorage === ERROR_BY_ZERO_MESSAGE || displayValue === ERROR_BY_ZERO_MESSAGE) {
+      clearValuesAndDisplay();
+      removeActiveClassFromButtons();
+      return;
+    }
+
     if(!operatorSelected) {
       currentOperator = e.target.id;
       operatorSelected = true;
