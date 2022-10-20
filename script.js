@@ -8,6 +8,8 @@ let displayValue = DEFAULT_VALUE;
 
 let decimalAlreadyPlaced = false;
 let operatorSelected = false;
+let currentOperator = ""
+let lastOperator = ""
 
 
 const displayContainer = document.getElementById("calculator-display")
@@ -15,15 +17,6 @@ const inputBtns = document.querySelectorAll(".input")
 const mathBtns = document.querySelectorAll(".math-functions")
 const clearBtn = document.getElementById("clear")
 const operatorBtn = document.getElementById("equals")
-
-clearBtn.addEventListener('click', () => {
-  clearValuesAndDisplay();
-  removeActiveClassFromButtons();
-});
-
-operatorBtn.addEventListener('click', () => {
-  logVariables()
-});
 
 function removeActiveClassFromButtons() {
   mathBtns.forEach((button) => {
@@ -39,6 +32,8 @@ function clearValuesAndDisplay() {
 
   decimalAlreadyPlaced = false;
   operatorSelected = false;
+  currentOperator = ""
+  lastOperator = ""
   
   resetDisplayAndcurrentInputValue();
 }
@@ -74,39 +69,53 @@ let operate = (operator, firstNumber, secondNumber) => {
   }
 };
 
-function updateDisplayValue(input) {
+function updateDisplayValue(buttonInput) {
   var interpretedInputValue;
 
-  if (currentInputValue === ERROR_BY_ZERO_MESSAGE) {
-    resetDisplayAndcurrentInputValue()
+  if(displayValue && !currentInputValue) {
+    displayValue = currentInputValue
   }
-  if (input === 'zero' && currentInputValue === "0") {
+  if (displayValue === ERROR_BY_ZERO_MESSAGE || temporaryNumberStorage == ERROR_BY_ZERO_MESSAGE) {
+    clearValuesAndDisplay()
+    return
+  }
+  if (buttonInput === 'zero' && currentInputValue === "0") {
     displayContainer.textContent = currentInputValue
     return;
   }
-  if (input === 'decimal' && decimalAlreadyPlaced) {
+  if (buttonInput === 'decimal' && decimalAlreadyPlaced) {
     return
   }
 
-  if (input === 'zero') {
+  if (buttonInput === 'zero') {
     interpretedInputValue = '0'
   }
-  else if (input === 'decimal') {
+  else if (buttonInput === 'decimal') {
     interpretedInputValue = "."
     decimalAlreadyPlaced = true
   }
   else if (currentInputValue === '0'){
     currentInputValue = ''
-    interpretedInputValue = input
+    interpretedInputValue = buttonInput
   }
   else {
-    interpretedInputValue = input
+    interpretedInputValue = buttonInput
   }
   
   currentInputValue += interpretedInputValue
   displayContainer.textContent = currentInputValue
 }
 
+let logVariables = () => {
+  console.log(`temporaryNumberStorage: ${temporaryNumberStorage}`)
+  console.log(`inputNumberB: ${inputNumberB}`)
+  console.log(`currentInputValue: ${currentInputValue}`)
+  console.log(`displayValue: ${displayValue}`)
+  console.log(`currentOperator: ${currentOperator}`)
+  console.log(`lastOperator: ${lastOperator}`)
+}
+
+// Input button logic
 inputBtns.forEach((button) => {
   button.addEventListener('click', e => {
     updateDisplayValue(e.target.id)
@@ -114,19 +123,75 @@ inputBtns.forEach((button) => {
   })
 });
 
+// Math operation button logic
 mathBtns.forEach((button) => {
   button.addEventListener('click', e => {
+    if(!operatorSelected) {
+      currentOperator = e.target.id;
+      operatorSelected = true;
+    }
+    else {
+      lastOperator = currentOperator
+      currentOperator = e.target.id
+    }    
+
+    if (!temporaryNumberStorage && !currentInputValue) {
+      temporaryNumberStorage = "0"
+      displayValue = "0"
+    }
+    else if (!temporaryNumberStorage) {
+      temporaryNumberStorage = currentInputValue
+      displayValue = currentInputValue
+    }
+    else if (temporaryNumberStorage && inputNumberB && !currentInputValue && displayValue) {
+      inputNumberB = ""
+      currentOperator = e.target.id
+    }
+    else {
+      inputNumberB = currentInputValue
+      temporaryNumberStorage = operate(lastOperator, parseFloat(temporaryNumberStorage), parseFloat(inputNumberB))
+      displayValue = temporaryNumberStorage
+    }
+
+    currentInputValue = ""
+    displayContainer.textContent = displayValue
     
-    
-    logVariables()
     removeActiveClassFromButtons()
     button.classList.add('active')
+    
+    logVariables()
   })
 })
 
-let logVariables = () => {
-  console.log(`temporaryNumberStorage: ${temporaryNumberStorage}`)
-  console.log(`inputNumberB: ${inputNumberB}`)
-  console.log(`currentInputValue: ${currentInputValue}`)
-  console.log(`displayValue: ${displayValue}`)
-}
+// AC / Clear button logic
+clearBtn.addEventListener('click', () => {
+  clearValuesAndDisplay();
+  removeActiveClassFromButtons();
+});
+
+// Equals / = button logic
+operatorBtn.addEventListener('click', () => {
+  if (!temporaryNumberStorage) {
+    return
+  }
+  if (displayValue === ERROR_BY_ZERO_MESSAGE || temporaryNumberStorage == ERROR_BY_ZERO_MESSAGE) {
+    clearValuesAndDisplay()
+    return
+  }
+
+  if(temporaryNumberStorage && !inputNumberB) {
+    inputNumberB = currentInputValue
+  }
+  else if (!currentInputValue && temporaryNumberStorage && inputNumberB) {
+  }
+  else {
+    inputNumberB = currentInputValue
+  }
+
+  temporaryNumberStorage = operate(currentOperator, parseFloat(temporaryNumberStorage), parseFloat(inputNumberB))
+  removeActiveClassFromButtons()
+  currentInputValue = ""
+  displayValue = temporaryNumberStorage
+  displayContainer.textContent = displayValue
+  logVariables()
+});
