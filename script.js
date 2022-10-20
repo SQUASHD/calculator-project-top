@@ -16,11 +16,13 @@ const mathBtns = document.querySelectorAll(".math-functions")
 const clearBtn = document.getElementById("clear")
 const operatorBtn = document.getElementById("equals")
 
+// AC / Clear Button logic
 clearBtn.addEventListener('click', () => {
   clearValuesAndDisplay();
   removeActiveClassFromButtons();
 });
 
+// EQUALS / = Button logic
 operatorBtn.addEventListener('click', () => {
   
   if (!firstNumberSet){
@@ -44,8 +46,6 @@ operatorBtn.addEventListener('click', () => {
   removeActiveClassFromButtons();
   logVariables()
 });
-
-
 
 function removeActiveClassFromButtons() {
   mathBtns.forEach((button) => {
@@ -98,6 +98,7 @@ let operate = (operator, firstNumber, secondNumber) => {
   }
 };
 
+// Update display based on input with verification
 function updateDisplayValue(input) {
   var interpretedInputValue;
 
@@ -138,6 +139,7 @@ inputBtns.forEach((button) => {
   })
 });
 
+// Math operation button logic
 mathBtns.forEach((button) => {
   button.addEventListener('click', e => {
     if (firstNumberSet) {
@@ -163,6 +165,7 @@ mathBtns.forEach((button) => {
   })
 })
 
+// Console log variables to track logic
 let logVariables = () => {
   console.log(`temporaryNumberStorage: ${temporaryNumberStorage}`)
   console.log(`inputNumberB: ${inputNumberB}`)
