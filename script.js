@@ -18,6 +18,7 @@ const mathBtns = document.querySelectorAll(".math-functions")
 const clearBtn = document.getElementById("clear")
 const operatorBtn = document.getElementById("equals")
 const signChangeBtn = document.getElementById("changeSign")
+const percentBtn = document.getElementById('calculatePercent')
 
 function removeActiveClassFromButtons() {
   mathBtns.forEach((button) => {
@@ -221,8 +222,20 @@ signChangeBtn.addEventListener('click', () => {
   logVariables()
 })
 
+percentBtn.addEventListener('click', () => {
+  if (currentInputValue) {
+    currentInputValue /= 100
+    displayContainer.textContent = currentInputValue
+  }
+  else if (!currentInputValue && displayValue) {
+    displayValue /= 100
+    temporaryNumberStorage = displayValue
+    displayContainer.textContent = displayValue
+  }
+})
 
-// Hover active button
+
+// Hover active styling for buttons
 inputBtns.forEach((button) => {
   button.addEventListener('mouseover', e => {
     e.target.classList.add("active-input")
@@ -244,4 +257,11 @@ signChangeBtn.addEventListener('mouseover', () => {
 })
 signChangeBtn.addEventListener('mouseout', () => {
   signChangeBtn.classList.remove('active-extra')
+})
+
+percentBtn.addEventListener('mouseover', () => {
+  percentBtn.classList.add('active-extra')
+})
+percentBtn.addEventListener('mouseout', () => {
+  percentBtn.classList.remove('active-extra')
 })
