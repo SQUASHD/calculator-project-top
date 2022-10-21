@@ -97,7 +97,7 @@ function updateDisplayValue(buttonInput) {
     displayValue = currentInputValue
   }
   if (buttonInput === 'zero' && currentInputValue === "0") {
-    displayContainer.textContent = Math.round(currentInputValue * 100) / 100
+    displayContainer.textContent = currentInputValue
     return;
   }
   if (buttonInput === 'decimal' && decimalAlreadyPlaced) {
@@ -123,7 +123,7 @@ function updateDisplayValue(buttonInput) {
   }
   
   currentInputValue += interpretedInputValue
-  displayContainer.textContent = Math.round(currentInputValue * 100) / 100
+  displayContainer.textContent = currentInputValue
 }
 
 let logVariables = () => {
@@ -186,7 +186,12 @@ mathBtns.forEach((button) => {
     }
 
     currentInputValue = ""
-    displayContainer.textContent = Math.round(displayValue * 100) / 100
+    if (displayValue === ERROR_BY_ZERO_MESSAGE) {
+      displayContainer.textContent = displayValue
+    }
+    else {
+      displayContainer.textContent = Math.round(displayValue * 10000) / 10000
+    }
     
     logVariables()
   })
@@ -225,7 +230,7 @@ operatorBtn.addEventListener('click', () => {
     displayContainer.textContent = displayValue
   }
   else {
-    displayContainer.textContent = Math.round(displayValue * 100) / 100
+    displayContainer.textContent = Math.round(displayValue * 10000) / 10000
   }
   
   removeActiveClassFromButtons()
@@ -239,11 +244,11 @@ signChangeBtn.addEventListener('click', () => {
 
   if (currentInputValue) {
     currentInputValue *= -1
-    displayContainer.textContent = Math.round(currentInputValue * 100) / 100
+    displayContainer.textContent = Math.round(currentInputValue * 10000) / 10000
   } else if (!currentInputValue && displayValue) {
     displayValue *= -1
     temporaryNumberStorage = displayValue
-    displayContainer.textContent = Math.round(displayValue * 100) / 100
+    displayContainer.textContent = Math.round(displayValue * 10000) / 10000
   }
   logVariables()
 })
@@ -255,12 +260,12 @@ percentBtn.addEventListener('click', () => {
 
   if (currentInputValue) {
     currentInputValue /= 100
-    displayContainer.textContent = Math.round(currentInputValue * 100) / 100
+    displayContainer.textContent = Math.round(currentInputValue * 10000) / 10000
   }
   else if (!currentInputValue && displayValue) {
     displayValue /= 100
     temporaryNumberStorage = displayValue
-    displayContainer.textContent = Math.round(displayValue * 100) / 100
+    displayContainer.textContent = Math.round(displayValue * 10000) / 10000
   }
 })
 
