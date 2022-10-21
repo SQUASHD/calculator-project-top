@@ -22,7 +22,7 @@
   font-size: 32px;
   font-weight: 500;
   width: 450px;
-  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 0px 8px;
 }
 
 .calculator-display {
