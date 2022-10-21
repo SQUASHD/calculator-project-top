@@ -9,41 +9,48 @@
   <title>Calculator</title>
 </head>
 <body>
-  <div class="calculator-container">
-    <div class="calculator-display" id="calculator-display">0</div>
-    <div class="first-row button-row">
-      <div class="button extra-function" id="clear">AC</div>
-      <div class="button extra-function" id="changeSign">+/-</div>
-      <div class="button extra-function" id="calculatePercent">%</div>
-      <div class="button math-functions" id="divide">÷</div>
-    </div>
-
-    <div class="second-row button-row">
-      <div class="button input" id="7">7</div>
-      <div class="button input" id="8">8</div>
-      <div class="button input" id="9">9</div>
-      <div class="button math-functions" id="multiply">×</div>
-    </div>
-
-    <div class="third-row button-row">
-      <div class="button input" id="4">4</div>
-      <div class="button input" id="5">5</div>
-      <div class="button input" id="6">6</div>
-      <div class="button math-functions" id="subtract">–</div>
-    </div>
-
-    <div class="fourth-row button-row">
-      <div class="button input" id="1">1</div>
-      <div class="button input" id="2">2</div>
-      <div class="button input" id="3">3</div>
-      <div class="button math-functions" id="add">+</div>
-    </div>
-
-    <div class="fifth-row button-row">
-      <div class="double-width-button input" id="zero">0</div>
-      <div class="button input" id="decimal">.</div>
-      <div class="button operator-function" id="equals">=</div>
+  <div class="content">
+    <div class="calculator-container">
+      <div class="calculator-display" id="calculator-display">0</div>
+      <div class="first-row button-row">
+        <div class="button extra-function" id="clear">AC</div>
+        <div class="button extra-function" id="changeSign">+/-</div>
+        <div class="button extra-function" id="calculatePercent">%</div>
+        <div class="button math-functions" id="divide">÷</div>
+      </div>
+      <div class="second-row button-row">
+        <div class="button input" id="7">7</div>
+        <div class="button input" id="8">8</div>
+        <div class="button input" id="9">9</div>
+        <div class="button math-functions" id="multiply">×</div>
+      </div>
+      <div class="third-row button-row">
+        <div class="button input" id="4">4</div>
+        <div class="button input" id="5">5</div>
+        <div class="button input" id="6">6</div>
+        <div class="button math-functions" id="subtract">–</div>
+      </div>
+      <div class="fourth-row button-row">
+        <div class="button input" id="1">1</div>
+        <div class="button input" id="2">2</div>
+        <div class="button input" id="3">3</div>
+        <div class="button math-functions" id="add">+</div>
+      </div>
+      <div class="fifth-row button-row">
+        <div class="double-width-button input" id="zero">0</div>
+        <div class="button input" id="decimal">.</div>
+        <div class="button operator-function" id="equals">=</div>
+      </div>
     </div>
   </div>
+  <footer class="footer">
+    <p>
+      Copyright ©
+      <script>
+        document.write(new Date().getFullYear())
+      </script>
+      squashd
+    </p>
+  </footer>
 </body>
 </html>
