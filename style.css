@@ -65,6 +65,15 @@
   background-color: var(--input-button-color);
 }
 
+.input:hover {
+  background-color: rgb(210, 205, 205);
+}
+
+.math-functions:hover,
+.operator-function:hover {
+  background-color: rgb(213, 117, 0);
+}
+
 .math-functions,
 .operator-function {
   background-color: var(--operator-button-color);
@@ -74,16 +83,11 @@
   background-color: var(--extra-function-button-color);
 }
 
+.extra-function:hover {
+  background-color: var(--input-button-color);
+}
 .active {
   background-color: rgb(213, 117, 0);
-}
-
-.active-input {
-  background-color: rgb(210, 205, 205);
-}
-
-.active-extra {
-  background-color: var(--input-button-color);
 }
 
 .footer {

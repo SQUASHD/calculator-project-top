@@ -268,34 +268,3 @@ percentBtn.addEventListener('click', () => {
     displayContainer.textContent = Math.round(displayValue * 10000) / 10000
   }
 })
-
-// Hover active styling for buttons
-inputBtns.forEach((button) => {
-  button.addEventListener('mouseover', e => {
-    e.target.classList.add("active-input")
-  })
-  button.addEventListener('mouseout', e => {
-    e.target.classList.remove('active-input')
-  })
-})
-
-clearBtn.addEventListener('mouseover', () => {
-  clearBtn.classList.add('active-extra')
-})
-clearBtn.addEventListener('mouseout', () => {
-  clearBtn.classList.remove('active-extra')
-})
-
-signChangeBtn.addEventListener('mouseover', () => {
-  signChangeBtn.classList.add('active-extra')
-})
-signChangeBtn.addEventListener('mouseout', () => {
-  signChangeBtn.classList.remove('active-extra')
-})
-
-percentBtn.addEventListener('mouseover', () => {
-  percentBtn.classList.add('active-extra')
-})
-percentBtn.addEventListener('mouseout', () => {
-  percentBtn.classList.remove('active-extra')
-})
