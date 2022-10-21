@@ -5,6 +5,11 @@
   --operator-button-color: orange;
 }
 
+body {
+  margin: 0;
+  padding: 0;
+}
+
 .content {
   display: flex;
   width: 100%;
@@ -12,6 +17,7 @@
   position: absolute;
   align-items: center;
   justify-content: center;
+  background-color: rgb(231, 234, 236);
 }
 
 .calculator-container {
@@ -102,4 +108,5 @@
   width: 100%;
   padding: 10px;
   font-size: 20px;
+  font-weight: 400;
 }
