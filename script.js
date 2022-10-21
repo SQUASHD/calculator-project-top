@@ -209,16 +209,14 @@ operatorBtn.addEventListener('click', () => {
       resetCalculator()
     }
 
-  if (!temporaryNumberStorage) {
+  if (!temporaryNumberStorage && temporaryNumberStorage != 0) {
     return
   }
 
   if(temporaryNumberStorage && !inputNumberB) {
     inputNumberB = currentInputValue
   }
-  else if (!currentInputValue && temporaryNumberStorage && inputNumberB) {
-  }
-  else {
+  else if (currentInputValue) {
     inputNumberB = currentInputValue
   }
 
