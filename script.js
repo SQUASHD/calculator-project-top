@@ -207,19 +207,20 @@ clearBtn.addEventListener('click', () => {
 operatorBtn.addEventListener('click', () => {
   if (checkIfDivideByZeroError()) {
       resetCalculator()
+      return
     }
-
-  if (!temporaryNumberStorage && temporaryNumberStorage != 0) {
+    
+    if (!temporaryNumberStorage && temporaryNumberStorage != 0) {
     return
   }
-
+  
   if(temporaryNumberStorage && !inputNumberB) {
     inputNumberB = currentInputValue
   }
   else if (currentInputValue) {
     inputNumberB = currentInputValue
   }
-
+  
   temporaryNumberStorage = operate(currentOperator, parseFloat(temporaryNumberStorage), parseFloat(inputNumberB))
   currentInputValue = ""
   displayValue = temporaryNumberStorage
