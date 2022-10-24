@@ -38,6 +38,7 @@ body {
   font-size: 32px;
   font-weight: 500;
   width: 450px;
+  border: solid rgb(92, 92, 92) 1px;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 0px 8px;
 }
 
